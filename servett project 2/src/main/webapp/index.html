@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Servlet Application</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(148, 163, 184, 0.12);
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --primary-glow: rgba(56, 189, 248, 0.25);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #818cf8;
+            --danger: #f87171;
+            --success: #34d399;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.12) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+            max-width: 680px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            margin-bottom: 16px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        @media (max-width: 820px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f1f5f9;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 0.88rem;
+            display: none;
+        }
+
+        .alert.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .alert.success {
+            background: rgba(52, 211, 153, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            color: #6ee7b7;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #0f172a;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #7dd3fc;
+            box-shadow: 0 4px 15px var(--primary-glow);
+            transform: translateY(-1px);
+        }
+
+        .helper-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px dashed rgba(148, 163, 184, 0.2);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .helper-box code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .route-list {
+            list-style: none;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .route-item {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .route-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .route-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #f1f5f9;
+        }
+
+        .route-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .route-badge {
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .badge-public { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+        .badge-auth { background: rgba(244, 114, 182, 0.15); color: #f472b6; }
+        .badge-listener { background: rgba(129, 140, 248, 0.15); color: #a5b4fc; }
+
+        .link-action {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        .link-action:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <span class="badge">Jakarta EE Servlet API</span>
+        <h1>Servlet Architecture Demo</h1>
+        <p class="subtitle">Complete Java web component architecture featuring Servlets, Authentication Filter, and Context / Session Listeners.</p>
+    </header>
+
+    <div class="container">
+        <!-- Login Card -->
+        <div class="card">
+            <h2>🔐 User Authentication</h2>
+            
+            <div id="errorAlert" class="alert error"></div>
+            <div id="successAlert" class="alert success"></div>
+
+            <form action="login" method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter username (e.g., admin)" required value="admin">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required value="admin123">
+                </div>
+                <button type="submit" class="btn">Sign In to Dashboard</button>
+            </form>
+
+            <div class="helper-box">
+                💡 Demo Credentials: <code>admin</code> / <code>admin123</code> (or any password &ge; 4 characters).
+            </div>
+        </div>
+
+        <!-- Endpoints & Architecture Card -->
+        <div class="card">
+            <h2>🚀 Component Endpoints</h2>
+            <ul class="route-list">
+                <li class="route-item">
+                    <div class="route-info">
+                        <span class="route-name">HelloServlet (<code>/hello</code>)</span>
+                        <span class="route-desc">Simple dynamic GET / POST greeting servlet</span>
+                    </div>
+                    <div>
+                        <span class="route-badge badge-public">GET/POST</span>
+                        <a class="link-action" href="hello?name=Developer">Run →</a>
+                    </div>
+                </li>
+
+                <li class="route-item">
+                    <div class="route-info">
+                        <span class="route-name">HomeServlet (<code>/home</code>)</span>
+                        <span class="route-desc">Protected user dashboard (requires session)</span>
+                    </div>
+                    <div>
+                        <span class="route-badge badge-auth">Filter Protected</span>
+                        <a class="link-action" href="home">Open →</a>
+                    </div>
+                </li>
+
+                <li class="route-item">
+                    <div class="route-info">
+                        <span class="route-name">AuthFilter (<code>/home/*</code>)</span>
+                        <span class="route-desc">Intercepts unauthenticated requests</span>
+                    </div>
+                    <span class="route-badge badge-auth">Filter</span>
+                </li>
+
+                <li class="route-item">
+                    <div class="route-info">
+                        <span class="route-name">AppListener</span>
+                        <span class="route-desc">Tracks context initialization & active session count</span>
+                    </div>
+                    <span class="route-badge badge-listener">Listener</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built with Java Servlets, Jakarta EE & Maven</p>
+    </footer>
+
+    <script>
+        // Parse URL query parameters to show status alerts
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        const message = urlParams.get('message');
+
+        const errorAlert = document.getElementById('errorAlert');
+        const successAlert = document.getElementById('successAlert');
+
+        if (error === 'login_required') {
+            errorAlert.innerText = '⚠️ Protected page! Please login first.';
+            errorAlert.style.display = 'block';
+        } else if (error === 'invalid_credentials') {
+            errorAlert.innerText = '❌ Invalid username or password. Please try again.';
+            errorAlert.style.display = 'block';
+        }
+
+        if (message === 'logged_out') {
+            successAlert.innerText = '✅ You have been successfully signed out.';
+            successAlert.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

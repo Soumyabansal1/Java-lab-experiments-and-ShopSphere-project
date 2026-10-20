@@ -1,0 +1,22 @@
+{
+    "liveServer.settings.port": 5501,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "cSpell.words": [
+        "webapps",
+        "javax",
+        "jakartaee",
+        "jstl",
+        "jains",
+        "larr",
+        "servlet",
+        "webapp",
+        "glassfish",
+        "jakarta",
+        "finalName",
+        "artifactId",
+        "groupId",
+        "modelVersion",
+        "sourceEncoding"
+    ]
+}
