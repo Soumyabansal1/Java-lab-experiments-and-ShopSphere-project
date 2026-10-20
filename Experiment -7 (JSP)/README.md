@@ -39,10 +39,10 @@ flowchart TD
 ```
 
 1. **Step 1: User Input via Browser (Client Tier)**
-   - The user loads [student.jsp](file:///c:/Users/jains/Videos/java%20tutorial/JSP/src/main/webapp/student.jsp) and fills out the student details (`Name`, `Email`, `Course`, `Age`).
+   - The user loads [student.jsp](src/main/webapp/student.jsp) and fills out the student details (`Name`, `Email`, `Course`, `Age`).
    - Clicking **Register** submits an HTTP `POST` request to the servlet url `/hello`.
 
-2. **Step 2: Controller Processing ([HelloServlet.java](file:///c:/Users/jains/Videos/java%20tutorial/JSP/src/main/java/com/servlet/HelloServlet.java))**
+2. **Step 2: Controller Processing ([HelloServlet.java](src/main/java/com/servlet/HelloServlet.java))**
    - The Tomcat container maps `/hello` to `com.servlet.HelloServlet`.
    - `request.getParameter("name")`, `request.getParameter("email")`, `request.getParameter("course")`, `request.getParameter("age")` extract the form inputs.
    - Values are stored into request attributes:
@@ -51,7 +51,7 @@ flowchart TD
      - `request.setAttribute("course", course)`
      - `request.setAttribute("age", ageStr)`
 
-3. **Step 3: Internal Server Forwarding & JSP Execution ([result.jsp](file:///c:/Users/jains/Videos/java%20tutorial/JSP/src/main/webapp/result.jsp))**
+3. **Step 3: Internal Server Forwarding & JSP Execution ([result.jsp](src/main/webapp/result.jsp))**
    - `request.getRequestDispatcher("/result.jsp").forward(request, response)` transfers execution to the JSP view internally on the server (preserving request attributes and keeping the URL intact).
    - Tomcat's JSP engine evaluates Expression Language (EL) tags (`${name}`, `${email}`, `${course}`, `${age}`) and renders dynamic HTML.
 
@@ -63,7 +63,7 @@ flowchart TD
 ## 🚀 How to Run the Project
 
 ### Option 1: Instant Run via `App.java` (Inside VS Code / Eclipse / IntelliJ)
-1. Open [App.java](file:///c:/Users/jains/Videos/java%20tutorial/JSP/src/main/java/com/servlet/App.java).
+1. Open [App.java](src/main/java/com/servlet/App.java).
 2. Click **Run** or press **F5** (or run `java com.servlet.App`).
 3. An embedded server starts at `http://localhost:8080/`.
 4. Your browser will automatically open `student.jsp`. Submit the form and see the dynamic output immediately!
@@ -110,5 +110,5 @@ flowchart TD
 ## 💡 Important Notes on Tomcat & Package Names
 
 - **Tomcat 10+ / Jakarta EE 9+**: Uses `jakarta.servlet.*` package imports (as configured in this project).
-- **Tomcat 9 or older / Java EE 8**: Uses `javax.servlet.*` package imports. If using Tomcat 9, change `jakarta.*` imports in [HelloServlet.java](file:///c:/Users/jains/Videos/java%20tutorial/JSP/src/main/java/com/servlet/HelloServlet.java) to `javax.*`.
+- **Tomcat 9 or older / Java EE 8**: Uses `javax.servlet.*` package imports. If using Tomcat 9, change `jakarta.*` imports in [HelloServlet.java](src/main/java/com/servlet/HelloServlet.java) to `javax.*`.
 "# JavaServer-Pages" 
